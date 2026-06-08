@@ -26,7 +26,7 @@ function DashboardPage() {
           <h1 className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-sm text-muted-foreground">A snapshot of your lead pipeline.</p>
         </div>
-        <Link to="/leads" className="rounded-xl gradient-brand text-primary-foreground text-sm font-medium px-4 py-2 flex items-center gap-2 hover:opacity-95 active:scale-[0.99] transition">
+        <Link to="/leads" search={{ new: false }} className="rounded-xl gradient-brand text-primary-foreground text-sm font-medium px-4 py-2 flex items-center gap-2 hover:opacity-95 active:scale-[0.99] transition">
           Manage leads <ArrowRight className="h-4 w-4" />
         </Link>
       </header>
@@ -37,7 +37,7 @@ function DashboardPage() {
       <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass rounded-2xl p-5">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold tracking-tight">Recent activity</h3>
-          <Link to="/leads" className="text-xs text-primary hover:underline">View all</Link>
+          <Link to="/leads" search={{ new: false }} className="text-xs text-primary hover:underline">View all</Link>
         </div>
         <ul className="mt-3 divide-y divide-border">
           {recent.length === 0 && (

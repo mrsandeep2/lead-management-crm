@@ -45,10 +45,10 @@ export function CommandPalette({
                 </Command.Empty>
                 <Command.Group heading="Navigate" className="text-xs text-muted-foreground px-2 py-1">
                   <Item icon={<LayoutDashboard className="h-4 w-4" />} label="Go to Dashboard" onSelect={run(() => navigate({ to: "/dashboard" }))} />
-                  <Item icon={<Users className="h-4 w-4" />} label="Go to Leads" onSelect={run(() => navigate({ to: "/leads" }))} />
+                  <Item icon={<Users className="h-4 w-4" />} label="Go to Leads" onSelect={run(() => navigate({ to: "/leads", search: { new: false } }))} />
                 </Command.Group>
                 <Command.Group heading="Actions" className="text-xs text-muted-foreground px-2 py-1">
-                  <Item icon={<Plus className="h-4 w-4" />} label="Add new lead" onSelect={run(() => navigate({ to: "/leads", search: { new: true } as never }))} />
+                  <Item icon={<Plus className="h-4 w-4" />} label="Add new lead" onSelect={run(() => navigate({ to: "/leads", search: { new: true } }))} />
                   <Item
                     icon={theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                     label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}

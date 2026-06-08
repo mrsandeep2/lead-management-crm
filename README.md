@@ -232,9 +232,11 @@ This project supports two paths. Pick one:
 ### Path A — All-in-one (Vercel)
 
 1. Push to GitHub.
-2. On Vercel: **Import Project** → framework auto-detected (TanStack Start / Vite).
-3. Add env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`. **Leave `VITE_API_URL` unset** — the app uses its built-in server routes.
-4. Deploy.
+2. On Vercel: **Import Project** → framework auto-detected (TanStack Start).
+3. Under **Project Settings > Build & Development Settings**:
+   - Ensure the **Output Directory** is left blank/default (do NOT set it to `dist`).
+4. Add env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`. **Leave `VITE_API_URL` unset** — the app uses its built-in server routes.
+5. Deploy.
 
 ### Path B — Frontend on Vercel + API on Render
 
