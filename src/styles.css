@@ -1,0 +1,176 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+
+  --color-status-new: var(--status-new);
+  --color-status-contacted: var(--status-contacted);
+  --color-status-qualified: var(--status-qualified);
+  --color-status-converted: var(--status-converted);
+  --color-status-lost: var(--status-lost);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Warm cream surface */
+  --background: oklch(0.972 0.012 80);
+  --foreground: oklch(0.22 0.03 280);
+
+  --surface: oklch(0.985 0.008 80);
+  --card: oklch(0.99 0.006 80 / 0.85);
+  --card-foreground: oklch(0.22 0.03 280);
+  --popover: oklch(0.995 0.004 80);
+  --popover-foreground: oklch(0.22 0.03 280);
+
+  /* Indigo primary */
+  --primary: oklch(0.5 0.22 280);
+  --primary-foreground: oklch(0.99 0 0);
+
+  /* Purple secondary/accent */
+  --secondary: oklch(0.94 0.04 300);
+  --secondary-foreground: oklch(0.3 0.15 290);
+  --accent: oklch(0.6 0.22 305);
+  --accent-foreground: oklch(0.99 0 0);
+
+  --muted: oklch(0.94 0.02 80);
+  --muted-foreground: oklch(0.5 0.03 280);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.62 0.16 155);
+  --success-foreground: oklch(0.99 0 0);
+  --warning: oklch(0.72 0.16 70);
+  --warning-foreground: oklch(0.2 0.05 70);
+
+  --border: oklch(0.88 0.02 80);
+  --input: oklch(0.92 0.015 80);
+  --ring: oklch(0.5 0.22 280 / 0.5);
+
+  --sidebar: oklch(0.96 0.014 80 / 0.7);
+  --sidebar-foreground: oklch(0.28 0.03 280);
+  --sidebar-border: oklch(0.88 0.02 80);
+
+  --status-new: oklch(0.65 0.18 250);
+  --status-contacted: oklch(0.7 0.18 305);
+  --status-qualified: oklch(0.7 0.16 70);
+  --status-converted: oklch(0.62 0.16 155);
+  --status-lost: oklch(0.62 0.18 27);
+}
+
+.dark {
+  --background: oklch(0.17 0.02 280);
+  --foreground: oklch(0.96 0.01 80);
+  --surface: oklch(0.21 0.025 280);
+  --card: oklch(0.23 0.03 280 / 0.7);
+  --card-foreground: oklch(0.96 0.01 80);
+  --popover: oklch(0.22 0.03 280);
+  --popover-foreground: oklch(0.96 0.01 80);
+  --primary: oklch(0.68 0.2 280);
+  --primary-foreground: oklch(0.15 0.02 280);
+  --secondary: oklch(0.3 0.05 290);
+  --secondary-foreground: oklch(0.96 0.01 80);
+  --accent: oklch(0.7 0.2 305);
+  --accent-foreground: oklch(0.15 0.02 280);
+  --muted: oklch(0.27 0.03 280);
+  --muted-foreground: oklch(0.7 0.02 280);
+  --destructive: oklch(0.65 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.7 0.16 155);
+  --success-foreground: oklch(0.15 0.02 280);
+  --warning: oklch(0.78 0.16 70);
+  --warning-foreground: oklch(0.2 0.05 70);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.68 0.2 280 / 0.6);
+  --sidebar: oklch(0.2 0.025 280 / 0.7);
+  --sidebar-foreground: oklch(0.92 0.01 80);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-image:
+      radial-gradient(ellipse 60% 50% at 10% 0%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 100% 100%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 60%);
+    background-attachment: fixed;
+  }
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, white 60%, transparent) inset,
+    0 10px 30px -12px color-mix(in oklab, var(--primary) 18%, transparent);
+}
+
+@utility glass-strong {
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+  box-shadow: 0 24px 60px -24px color-mix(in oklab, var(--primary) 25%, transparent);
+}
+
+@utility gradient-brand {
+  background-image: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

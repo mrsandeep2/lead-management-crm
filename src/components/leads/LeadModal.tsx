@@ -1,0 +1,167 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Loader2 } from "lucide-react";
+import type { Lead, LeadInput, LeadStatus } from "@/lib/leads/types";
+import { LEAD_STATUSES } from "@/lib/leads/types";
+import { useCreateLead, useUpdateLead } from "@/hooks/useLeadsApi";
+
+export function LeadModal({
+  open,
+  onClose,
+  lead,
+}: {
+  open: boolean;
+  onClose: () => void;
+  lead?: Lead | null;
+}) {
+  const create = useCreateLead();
+  const update = useUpdateLead();
+  const editing = !!lead;
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<LeadInput>({
+    defaultValues: { lead_status: "New" },
+  });
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        name: lead?.name ?? "",
+        email: lead?.email ?? "",
+        phone: lead?.phone ?? "",
+        company_name: lead?.company_name ?? "",
+        lead_status: (lead?.lead_status ?? "New") as LeadStatus,
+        notes: lead?.notes ?? "",
+      });
+    }
+  }, [open, lead, reset]);
+
+  const notesLen = (watch("notes") ?? "").length;
+
+  const onSubmit = async (values: LeadInput) => {
+    if (editing && lead) {
+      await update.mutateAsync({ id: lead.id, input: values });
+    } else {
+      await create.mutateAsync(values);
+    }
+    onClose();
+  };
+
+  const submitting = create.isPending || update.isPending;
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ type: "spring", damping: 26, stiffness: 260 }}
+            className="fixed left-1/2 top-[10%] z-50 w-[94%] max-w-lg -translate-x-1/2"
+          >
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="glass-strong rounded-3xl p-6 sm:p-8 border border-border"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold tracking-tight">
+                    {editing ? "Edit lead" : "Add new lead"}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {editing ? "Update details for this lead." : "Capture a fresh opportunity."}
+                  </p>
+                </div>
+                <button type="button" onClick={onClose} className="rounded-lg p-1.5 hover:bg-muted/60">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="mt-6 grid sm:grid-cols-2 gap-4">
+                <Field label="Name" error={errors.name?.message}>
+                  <input
+                    autoFocus
+                    {...register("name", { required: "Required", maxLength: 120 })}
+                    className="field"
+                    placeholder="Jane Smith"
+                  />
+                </Field>
+                <Field label="Email" error={errors.email?.message}>
+                  <input
+                    type="email"
+                    {...register("email", {
+                      required: "Required",
+                      pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: "Invalid" },
+                    })}
+                    className="field"
+                    placeholder="jane@acme.com"
+                  />
+                </Field>
+                <Field label="Phone" error={errors.phone?.message}>
+                  <input
+                    {...register("phone", { maxLength: 40, pattern: { value: /^[+\d\s().-]*$/, message: "Invalid phone" } })}
+                    className="field"
+                    placeholder="+1 555 0100"
+                  />
+                </Field>
+                <Field label="Company" error={errors.company_name?.message}>
+                  <input
+                    {...register("company_name", { maxLength: 120 })}
+                    className="field"
+                    placeholder="Acme Inc."
+                  />
+                </Field>
+                <Field label="Status" error={errors.lead_status?.message}>
+                  <select {...register("lead_status", { required: true })} className="field">
+                    {LEAD_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </Field>
+                <div className="sm:col-span-2">
+                  <Field label={`Notes (${notesLen}/2000)`} error={errors.notes?.message}>
+                    <textarea
+                      rows={3}
+                      maxLength={2000}
+                      {...register("notes", { maxLength: 2000 })}
+                      className="field resize-none"
+                      placeholder="Context, follow-ups, next steps…"
+                    />
+                  </Field>
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-2">
+                <button type="button" onClick={onClose} className="rounded-xl px-4 py-2 text-sm hover:bg-muted/60 transition">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="rounded-xl gradient-brand text-primary-foreground font-medium px-5 py-2 text-sm flex items-center gap-2 hover:opacity-95 active:scale-[0.99] transition disabled:opacity-60"
+                >
+                  {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {editing ? "Save changes" : "Create lead"}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="text-xs font-medium text-foreground/80">{label}</span>
+      <div className="mt-1.5">{children}</div>
+      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
+      <style>{`.field{width:100%;border-radius:0.75rem;background:color-mix(in oklab,var(--input) 60%,transparent);border:1px solid var(--border);padding:0.55rem 0.85rem;outline:none;transition:all .15s}.field:focus{box-shadow:0 0 0 4px var(--ring);border-color:transparent}`}</style>
+    </label>
+  );
+}
