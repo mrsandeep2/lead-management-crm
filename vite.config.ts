@@ -24,4 +24,9 @@ export default defineConfig({
         }
       : undefined,
   },
+  vite: {
+    build: {
+      chunkSizeWarningLimit: 1000,
+    },
+  },
 });
